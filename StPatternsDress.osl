@@ -1,0 +1,47 @@
+shader StPatternsDress(
+	float s = 1
+		[[
+		int lockgeom = 0,
+		string widget = "null",
+		]],
+	float t = 1
+		[[
+		int lockgeom = 0,
+		string widget = "null",
+		]],
+	color innerAlpha = color(0,0,0),
+	color outerAlpha = color(1,1,1),
+	float s_min = 0.4,
+	float s_max = 0.5,
+	float t_min = 0.4,
+	float t_max = 0.5,
+	float center_s = 0.5,
+	float center_t = 0.5,
+	float inner_r = 0.1,
+	float outer_r = 0.3,
+	float offset = 0.5,
+	output color resultAlpha = 1,
+	string type = "cross"
+		[[ string widget = "popup",
+		string options = "cross|cricle" ]],)
+	{
+		
+ 		float row = floor (t);
+		float ss = mod (s , 1);
+		if (mod(row,2) == 0)
+			ss = mod((s +offset), 1);
+		float tt = mod (t , 1);
+		float d = distance ( point (ss,tt,0), point (center_s,center_t,0));
+	
+		if (type == "cross"){
+			resultAlpha = (ss <= s_max && ss>=s_min || tt <= t_max && tt >=t_min) ? innerAlpha : outerAlpha;}
+		else
+			resultAlpha = (d <= outer_r && d >= inner_r) ? innerAlpha : outerAlpha;
+			
+		
+
+	
+		}
+
+
+
